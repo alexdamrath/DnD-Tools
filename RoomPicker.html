@@ -1,0 +1,113 @@
+<body style="background:black;" onload="checkUsed()">
+<div style="text-align:center;margin-top:25vh;">
+    <span style="text-align:center;color:darkgrey;font-size:120px;" id="result">Pick A Floor</span>
+</div>
+<br>
+<div style="text-align:center;color:gray;">
+    <span id="used"></span>
+</div>
+<div style="text-align:center;position:absolute;bottom:0px;margin:15px;">
+<button style="border:none;background-color:darkred;color:white;border-radius:5px;padding:10px;margin:10px" onClick="roll('middle');">1st Floor</button>
+<button style="border:none;background-color:teal;color:white;border-radius:5px;padding:10px;margin:10px" onClick="roll('upper');">2nd Floor</button>
+<button style="border:none;background-color:olivedrab;color:white;border-radius:5px;padding:10px;margin:10px" onClick="roll('lower');">Basement</button>
+</div>
+
+<script>
+
+var middle_rooms = ["Abandoned Room","Ballroom","Bloody Room","Chapel","Charred Room","Coal Chute (to Furnace Room)","Collaped Room (to random basement)","Conservatory","Creaky Hallway","Dusty Hallway","Gallery","Game Room","Garden","Graveyard","Junkroom","Library","Mystic Elevator","Organ Room","Patio","Servant's Quarters","Stairs to Basement","Statuary Room"];
+var upper_rooms = ["Abandoned Room","Attic","Balcony","Bedroom","Bloody Room","Charred Room","Collapsed Room (to random 1st floor)","Creaky Hallway","Dusty Hallway","Gallery","Game Room","Gymnasium","Junkroom","Library","Master Bedroom","Mystic Elevator","Pentagram Room","Research Lab","Servant's Quarters","Tower"];
+var lower_rooms = ["Abandoned Room","Basement Landing","Bloody Room","Catacombs","Charred Room","Chasm","Creaky Hallway","Crypt","Dusty Hallway","Furnace Room","Larder","Mystic Elevator","Operating Room","Pentagram Room","Research Lab","Servants Quarters","Store Room","Underground Lake","Vault","Wine Cellar"];
+var used_rooms = [];
+var colors = [];
+var z = 0;
+
+function checkUsed () {
+    used_rooms = JSON.parse(window.localStorage.getItem("usedRooms"));
+    colors = JSON.parse(window.localStorage.getItem("colorList"));
+    console.log(used_rooms);
+    fillUsed();
+}
+
+function fillUsed () {
+    document.getElementById("used").textContent="";
+    for (let x = 0; x < used_rooms.length; x++) {
+        const element = used_rooms[x];
+        document.getElementById("used").innerHTML+='<button style="border:none;background-color:'+colors[x]+';color:white;border-radius:5px;padding:5px;margin:4px;font-size:10px;" onClick="removeUsed('+x+')">'+element+'</button>';
+    }
+}
+
+function removeUsed (x) {
+    used_rooms.splice(x,1);
+    window.localStorage.setItem("usedRooms", JSON.stringify(used_rooms));
+    fillUsed();
+}
+
+function roll(x) {
+
+    if (z>=25) {
+        alert("No more rooms left in that deck!");
+        z=0;
+    } else {
+        
+        switch(x) {
+            case "upper":
+                var uRoom = upper_rooms[Math.floor(Math.random()*upper_rooms.length)];
+                console.log(uRoom);
+                var used = used_rooms.includes(uRoom);
+                if (used) {
+                    z++;
+                    roll(x);
+                } else {
+                    document.getElementById("result").textContent=uRoom;
+                    used_rooms.push(uRoom);
+                    colors.push("teal");
+                    window.localStorage.setItem("usedRooms", JSON.stringify(used_rooms));
+                    window.localStorage.setItem("colorList", JSON.stringify(colors));
+                    fillUsed();
+                    z=0;
+                }
+                
+            break;
+            case "lower":
+                var lRoom = lower_rooms[Math.floor(Math.random()*lower_rooms.length)];
+                console.log(lRoom);
+                var used = used_rooms.includes(lRoom);
+                if (used) {
+                    z++;
+                    roll(x);
+                } else {
+                    document.getElementById("result").textContent=lRoom;
+                    used_rooms.push(lRoom);
+                    colors.push("olivedrab");
+                    window.localStorage.setItem("usedRooms", JSON.stringify(used_rooms));
+                    window.localStorage.setItem("colorList", JSON.stringify(colors));
+                    fillUsed();
+                    z=0;
+                }
+            break;
+            case "middle":
+                var mRoom = middle_rooms[Math.floor(Math.random()*middle_rooms.length)];
+                console.log(mRoom);
+                var used = used_rooms.includes(mRoom);
+                if (used) {
+                    z++;
+                    roll(x);
+                } else {
+                    document.getElementById("result").textContent=mRoom;
+                    used_rooms.push(mRoom);
+                    colors.push("darkred");
+                    window.localStorage.setItem("usedRooms", JSON.stringify(used_rooms));
+                    window.localStorage.setItem("colorList", JSON.stringify(colors));
+                    fillUsed();
+                    z=0;
+                }
+            break;
+            default:
+            document.getElementById("result").textContent="This shouldn't happen. Let Alex know the default state was triggered.";
+        }
+    }
+}
+
+</script>
+
+</body>

@@ -1,0 +1,20 @@
+<div style="text-align:left">
+    <span style="text-align:center;color:grey;font-size:140px;" id="result">0</span>
+</div>
+<br>
+<button style="border:none;background-color:brown;color:white;border-radius:5px;padding:10px;" onClick="roll(20);">d20</button>
+<button style="border:none;background-color:brown;color:white;border-radius:5px;padding:10px;" onClick="roll(12);">d12</button>
+<button style="border:none;background-color:brown;color:white;border-radius:5px;padding:10px;" onClick="roll(10);">d10</button>
+<button style="border:none;background-color:brown;color:white;border-radius:5px;padding:10px;" onClick="roll(8);">d8</button>
+<button style="border:none;background-color:brown;color:white;border-radius:5px;padding:10px;" onClick="roll(6);">d6</button>
+<button style="border:none;background-color:brown;color:white;border-radius:5px;padding:10px;" onClick="roll(4);">d4</button>
+
+<script>
+
+function roll(x) {
+    var result = Math.floor(Math.random() * x) + 1;
+    document.getElementById("result").innerHTML= result;
+}
+
+</script>
+
