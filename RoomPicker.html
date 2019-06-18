@@ -14,16 +14,16 @@
 
 <script>
 
-var used_rooms = [];
-var color = [];
+// var colors = [];
 var middle_rooms = ["Abandoned Room","Ballroom","Bloody Room","Chapel","Charred Room","Coal Chute (to Furnace Room)","Collaped Room (to random basement)","Conservatory","Creaky Hallway","Dusty Hallway","Gallery","Game Room","Garden","Graveyard","Junkroom","Library","Mystic Elevator","Organ Room","Patio","Servant's Quarters","Stairs to Basement","Statuary Room"];
 var upper_rooms = ["Abandoned Room","Attic","Balcony","Bedroom","Bloody Room","Charred Room","Collapsed Room (to random 1st floor)","Creaky Hallway","Dusty Hallway","Gallery","Game Room","Gymnasium","Junkroom","Library","Master Bedroom","Mystic Elevator","Pentagram Room","Research Lab","Servant's Quarters","Tower"];
 var lower_rooms = ["Abandoned Room","Basement Landing","Bloody Room","Catacombs","Charred Room","Chasm","Creaky Hallway","Crypt","Dusty Hallway","Furnace Room","Larder","Mystic Elevator","Operating Room","Pentagram Room","Research Lab","Servants Quarters","Store Room","Underground Lake","Vault","Wine Cellar"];
+var used_rooms = [];
 var z = 0;
 
 function checkUsed () {
     used_rooms = JSON.parse(window.localStorage.getItem("usedRooms"));
-    color = JSON.parse(window.localStorage.getItem("colorList"));
+    // colors = JSON.parse(window.localStorage.getItem("colorList"));
     console.log(used_rooms);
     fillUsed();
 }
@@ -32,7 +32,7 @@ function fillUsed () {
     document.getElementById("used").textContent="";
     for (let x = 0; x < used_rooms.length; x++) {
         const element = used_rooms[x];
-        document.getElementById("used").innerHTML+='<button style="border:none;background-color:'+color[x]+';color:white;border-radius:5px;padding:5px;margin:4px;font-size:10px;" onClick="removeUsed('+x+')">'+element+'</button>';
+        document.getElementById("used").innerHTML+='<button style="border:none;background-color:red;color:white;border-radius:5px;padding:5px;margin:4px;font-size:10px;" onClick="removeUsed('+x+')">'+element+'</button>';
     }
 }
 
@@ -60,9 +60,9 @@ function roll(x) {
                 } else {
                     document.getElementById("result").textContent=uRoom;
                     used_rooms.push(uRoom);
-                    color.push("teal");
+                    // colors.push("teal");
                     window.localStorage.setItem("usedRooms", JSON.stringify(used_rooms));
-                    window.localStorage.setItem("colorList", JSON.stringify(color));
+                    // window.localStorage.setItem("colorList", JSON.stringify(colors));
                     fillUsed();
                     z=0;
                 }
@@ -78,9 +78,9 @@ function roll(x) {
                 } else {
                     document.getElementById("result").textContent=lRoom;
                     used_rooms.push(lRoom);
-                    color.push("olivedrab");
+                    // colors.push("olivedrab");
                     window.localStorage.setItem("usedRooms", JSON.stringify(used_rooms));
-                    window.localStorage.setItem("colorList", JSON.stringify(color));
+                    // window.localStorage.setItem("colorList", JSON.stringify(colors));
                     fillUsed();
                     z=0;
                 }
@@ -95,9 +95,9 @@ function roll(x) {
                 } else {
                     document.getElementById("result").textContent=mRoom;
                     used_rooms.push(mRoom);
-                    color.push("darkred");
+                    // colors.push("darkred");
                     window.localStorage.setItem("usedRooms", JSON.stringify(used_rooms));
-                    window.localStorage.setItem("colorList", JSON.stringify(color));
+                    // window.localStorage.setItem("colorList", JSON.stringify(colors));
                     fillUsed();
                     z=0;
                 }
