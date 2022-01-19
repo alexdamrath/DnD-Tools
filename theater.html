@@ -1,0 +1,89 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Wanderlost</title>
+  <meta name="description" content="Theater of the mind.">
+  <meta name="author" content="AlexDamrath">
+  <link rel="icon" href="favicon.ico">
+
+</head>
+
+<body>
+    <img id="bg" src=""/>
+    <img id="char" src=""/>
+
+    <div class="file-uploads">
+        <input type="file" id="bg-select" onchange="BgSelected(event)">
+        <input type="file" id="char-select" onchange="CharSelected(event)">
+    </div>
+    
+  <script type="text/javascript">
+    // src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"
+
+    function BgSelected(event) {
+        var selectedFile = event.target.files[0];
+        var reader = new FileReader();
+        var imgtag = document.getElementById("bg");
+        imgtag.title = selectedFile.name;
+
+        reader.onload = function(event) {
+            imgtag.src = event.target.result;
+        };
+
+        reader.readAsDataURL(selectedFile);
+    }
+
+    function CharSelected(event) {
+        var selectedFile = event.target.files[0];
+        var reader = new FileReader();
+        var imgtag = document.getElementById("char");
+        imgtag.title = selectedFile.name;
+
+        reader.onload = function(event) {
+            imgtag.src = event.target.result;
+        };
+
+        reader.readAsDataURL(selectedFile);
+    }
+
+  </script>
+
+  <style>
+    
+    body {
+        margin: 0px;
+    }
+    
+    #bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+    }
+
+    #char {
+        position: absolute;
+        top: 30%;
+        left: 40%;
+        width: 25%;
+        z-index: 20;
+    }
+
+    .file-uploads{
+        display: flex;
+        justify-content: start;
+        position: absolute;
+        bottom: 10px;
+        left: 20px;
+        z-index: 10;
+    }
+
+  </style>
+
+</body>
+
+</html>
