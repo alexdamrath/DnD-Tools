@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+<title>What Should I Draw?</title>
+</head>
+<body onload="checkSave(), makeLists()">
+
+    <div class="promptDiv">
+        <h1 class="prompt" id="1"></h1>
+
+    </div>
+
+    <div class="buttoncontainer">
+        <button class="mainbutton" onclick="makePrompt()">What Should I Draw?</button>
+    </div>
+
+    <div class="library">
+        <div class="pre-prompts">
+            <input type="text" id="addPre" placeholder="Add Pre-Prompt" onkeypress="clickPress(event, true)">
+            <div id="pre"></div>
+        </div>
+        <div class="post-prompts">
+            <input type="text" id="addPost" placeholder="Add Post-Prompt" onkeypress="clickPress(event, false)">
+            <div id="post"></div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    var preprompts = [];
+    var postprompts = [];
+
+    function checkSave(){
+        preprompts = JSON.parse(window.localStorage.getItem("prePrompts")) || [];
+        postprompts = JSON.parse(window.localStorage.getItem("postPrompts")) || [];
+        console.log(preprompts, postprompts);
+    }
+
+    function makeLists () {
+        document.getElementById("pre").textContent="";
+        for (let x = 0; x < preprompts.length; x++) {
+            const element = preprompts[x];
+            document.getElementById("pre").innerHTML+='<button class="pre-button" onClick="removepre('+x+')">'+element+'</button>';
+        }
+        document.getElementById("post").textContent="";
+        for (let x = 0; x < postprompts.length; x++) {
+            const element = postprompts[x];
+            document.getElementById("post").innerHTML+='<button class="post-button" onClick="removepost('+x+')">'+element+'</button>';
+        }
+    }
+
+    function makePrompt () {
+        const pre = preprompts[Math.floor(Math.random() * preprompts.length)];
+        const post = postprompts[Math.floor(Math.random() * postprompts.length)];
+        document.getElementById("1").innerHTML = "Draw a " + pre + " " + post;
+    }
+
+    function removepre(x) {
+        preprompts.splice(x,1);
+        window.localStorage.setItem("prePrompts", JSON.stringify(preprompts));
+        makeLists();
+    }
+
+    function removepost(x) {
+        postprompts.splice(x,1);
+        window.localStorage.setItem("postPrompts", JSON.stringify(postprompts));
+        makeLists();
+    }
+
+    function clickPress (event, which) {
+        if (event.key == "Enter") {
+            if (which) {
+               const newPre = document.getElementById("addPre").value;
+               preprompts.push(newPre);
+               window.localStorage.setItem("prePrompts", JSON.stringify(preprompts));
+               document.getElementById("addPre").value = "";
+            }else{
+                const newPost = document.getElementById("addPost").value;
+               postprompts.push(newPost);
+               window.localStorage.setItem("postPrompts", JSON.stringify(postprompts));
+               document.getElementById("addPost").value ="";
+            }
+        makeLists();
+        }
+    }
+
+</script>
+
+<style>
+    body {
+        background-color: #222;
+        background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("promptbg.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100vh;
+        overflow: hidden;
+    }
+    .promptDiv {
+        width: 100%;
+        height: 300px;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .prompt {
+        font-size: 80px;
+        color: whitesmoke;
+    }
+    .buttoncontainer{
+        text-align: center;
+        height: 200px;
+    }
+    .mainbutton {
+        width: 420px;
+        font-size: 38px;
+        border-radius: 28px;
+        background-color: #000;
+        color: whitesmoke;
+    }
+    .library {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        padding: 20px;
+    }
+    .library input {
+        width: 100%;
+        height: 32px;
+        font-size: 28px;
+        border-radius: 12px;
+        text-align: center;
+    }
+    .pre-prompts, .post-prompts {
+        width: 300px;
+        margin: 10px;
+        text-align: center;
+    }
+    .pre-button, .post-button {
+        width: 60%;
+        padding: 5px;
+        margin: 5px;
+        border-radius: 20px;
+        background-color: maroon;
+        color: whitesmoke;
+    }
+</style>
+
+</html>
