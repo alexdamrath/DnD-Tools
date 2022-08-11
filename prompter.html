@@ -11,79 +11,105 @@
     </div>
 
     <div class="buttoncontainer">
-        <button class="mainbutton" onclick="makePrompt()">What Should I Draw?</button>
+        <button class="mainbutton" onclick="makePrompt()">What Should I Art?</button>
     </div>
 
     <div class="library">
-        <div class="pre-prompts">
-            <input type="text" id="addPre" placeholder="Add Pre-Prompt" onkeypress="clickPress(event, true)">
-            <div id="pre"></div>
+        <div class="style-prompts">
+            <input type="text" id="addStyle" placeholder="Add Style Prompt" onkeypress="clickPress(event, 0)">
+            <div id="style"></div>
         </div>
-        <div class="post-prompts">
-            <input type="text" id="addPost" placeholder="Add Post-Prompt" onkeypress="clickPress(event, false)">
-            <div id="post"></div>
+        <div class="subject-prompts">
+            <input type="text" id="addSubject" placeholder="Add Subject Prompt" onkeypress="clickPress(event, 1)">
+            <div id="subject"></div>
+        </div>
+        <div class="medium-prompts">
+            <input type="text" id="addMedium" placeholder="Add Medium Prompt" onkeypress="clickPress(event, 2)">
+            <div id="medium"></div>
         </div>
     </div>
 
 </body>
 
 <script>
-    var preprompts = [];
-    var postprompts = [];
+    var styleprompts = [];
+    var subjectprompts = [];
+    var mediumprompts = [];
 
     function checkSave(){
-        preprompts = JSON.parse(window.localStorage.getItem("prePrompts")) || [];
-        postprompts = JSON.parse(window.localStorage.getItem("postPrompts")) || [];
-        console.log(preprompts, postprompts);
+        styleprompts = JSON.parse(window.localStorage.getItem("stylePrompts")) || [];
+        subjectprompts = JSON.parse(window.localStorage.getItem("subjectPrompts")) || [];
+        mediumprompts = JSON.parse(window.localStorage.getItem("mediumPrompts")) || [];
+        console.log(styleprompts, subjectprompts, mediumprompts);
     }
 
     function makeLists () {
-        document.getElementById("pre").textContent="";
-        for (let x = 0; x < preprompts.length; x++) {
-            const element = preprompts[x];
-            document.getElementById("pre").innerHTML+='<button class="pre-button" onClick="removepre('+x+')">'+element+'</button>';
+        document.getElementById("style").textContent="";
+        for (let x = 0; x < styleprompts.length; x++) {
+            const element = styleprompts[x];
+            document.getElementById("style").innerHTML+='<button class="style-button" onClick="removeStyle('+x+')">'+element+'</button>';
         }
-        document.getElementById("post").textContent="";
-        for (let x = 0; x < postprompts.length; x++) {
-            const element = postprompts[x];
-            document.getElementById("post").innerHTML+='<button class="post-button" onClick="removepost('+x+')">'+element+'</button>';
+        document.getElementById("subject").textContent="";
+        for (let x = 0; x < subjectprompts.length; x++) {
+            const element = subjectprompts[x];
+            document.getElementById("subject").innerHTML+='<button class="subject-button" onClick="removeSubject('+x+')">'+element+'</button>';
+        }
+        document.getElementById("medium").textContent="";
+        for (let x = 0; x < mediumprompts.length; x++) {
+            const element = mediumprompts[x];
+            document.getElementById("medium").innerHTML+='<button class="medium-button" onClick="removeMedium('+x+')">'+element+'</button>';
         }
     }
 
     function makePrompt () {
-        const pre = preprompts[Math.floor(Math.random() * preprompts.length)];
-        const post = postprompts[Math.floor(Math.random() * postprompts.length)];
-        document.getElementById("1").innerHTML = "Draw a " + pre + " " + post;
+        const style = styleprompts[Math.floor(Math.random() * styleprompts.length)];
+        const subject = subjectprompts[Math.floor(Math.random() * subjectprompts.length)];
+        const medium = mediumprompts[Math.floor(Math.random() * subjectprompts.length)];
+        document.getElementById("1").innerHTML = "Create a " + style + " " + subject + " using " + medium;
     }
 
-    function removepre(x) {
-        preprompts.splice(x,1);
-        window.localStorage.setItem("prePrompts", JSON.stringify(preprompts));
+    function removeStyle(x) {
+        styleprompts.splice(x,1);
+        window.localStorage.setItem("stylePrompts", JSON.stringify(styleprompts));
         makeLists();
     }
 
-    function removepost(x) {
-        postprompts.splice(x,1);
-        window.localStorage.setItem("postPrompts", JSON.stringify(postprompts));
+    function removeSubject(x) {
+        subjectprompts.splice(x,1);
+        window.localStorage.setItem("subjectPrompts", JSON.stringify(subjectprompts));
+        makeLists();
+    }
+
+    function removeMedium(x) {
+        mediumprompts.splice(x,1);
+        window.localStorage.setItem("mediumPrompts", JSON.stringify(mediumprompts));
         makeLists();
     }
 
     function clickPress (event, which) {
         if (event.key == "Enter") {
-            if (which) {
-               const newPre = document.getElementById("addPre").value;
-               preprompts.push(newPre);
-               window.localStorage.setItem("prePrompts", JSON.stringify(preprompts));
-               document.getElementById("addPre").value = "";
-            }else{
-                const newPost = document.getElementById("addPost").value;
-               postprompts.push(newPost);
-               window.localStorage.setItem("postPrompts", JSON.stringify(postprompts));
-               document.getElementById("addPost").value ="";
+            const newStyle = document.getElementById("addStyle").value;
+            if (newStyle!= ""){
+                styleprompts.push(newStyle);
+                window.localStorage.setItem("stylePrompts", JSON.stringify(styleprompts));
+                document.getElementById("addStyle").value = "";
             }
-        makeLists();
+            const newSubject = document.getElementById("addSubject").value;
+            if (newSubject!= ""){
+                subjectprompts.push(newSubject);
+                window.localStorage.setItem("subjectPrompts", JSON.stringify(subjectprompts));
+                document.getElementById("addSubject").value ="";
+            }
+            const newMedium = document.getElementById("addMedium").value;
+            if (newMedium!= "") {
+                mediumprompts.push(newMedium);
+                window.localStorage.setItem("mediumPrompts", JSON.stringify(mediumprompts));
+                document.getElementById("addMedium").value ="";
+            }
         }
+    makeLists();
     }
+    
 
 </script>
 
@@ -132,12 +158,12 @@
         border-radius: 12px;
         text-align: center;
     }
-    .pre-prompts, .post-prompts {
+    .style-prompts, .subject-prompts, .medium-prompts {
         width: 300px;
         margin: 10px;
         text-align: center;
     }
-    .pre-button, .post-button {
+    .style-button, .subject-button, .medium-button {
         width: 60%;
         padding: 5px;
         margin: 5px;
