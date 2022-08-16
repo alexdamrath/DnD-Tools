@@ -64,7 +64,7 @@
     function makePrompt () {
         const style = styleprompts[Math.floor(Math.random() * styleprompts.length)];
         const subject = subjectprompts[Math.floor(Math.random() * subjectprompts.length)];
-        const medium = mediumprompts[Math.floor(Math.random() * subjectprompts.length)];
+        const medium = mediumprompts[Math.floor(Math.random() * mediumprompts.length)];
         document.getElementById("1").innerHTML = "Create a " + style + " " + subject + " using " + medium;
     }
 
